@@ -34,11 +34,13 @@ const Login = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 console.log('Logged in:', userCredential.user);
+                navigation.navigate('Home'); // نقل المستخدم إلى صفحة Home
             })
             .catch((error) => {
                 console.error('Login error:', error);
             });
     };
+    
 
     return (
         <View style={styles.container}>
