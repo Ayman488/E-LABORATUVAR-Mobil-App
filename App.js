@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './screens/Login';
 import Signup from './screens/Signup';
 import Home from './screens/Home'; 
+import sonuclarim from './screens/sonuclarim';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,11 @@ export default function App() {
                     name="Home"
                     component={Home}
                     options={{ title: 'Home' }}
+                />
+                <Stack.Screen
+                    name="sonuclarim"
+                    component={sonuclarim}
+                    options={{ title: 'sonuclarim' }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

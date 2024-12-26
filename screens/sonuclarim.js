@@ -1,22 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const Home = ({ navigation }) => {
+const sonuclarim = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Welcome to the Home Page</Text>
+            <Text style={styles.title}>Welcome to the sonuclariniz Page</Text>
             <TouchableOpacity
                 style={styles.logoutButton}
-                onPress={() => navigation.navigate('Login')}
+                onPress={() => navigation.navigate('Home')}
             >
-                
                 <Text style={styles.logoutButtonText}>Logout</Text>
-            </TouchableOpacity>
-            <br></br>
-            <TouchableOpacity
-             style={styles.logoutButton} 
-             onPress={() => navigation.navigate('sonuclarim')}>
-                    <Text style={styles.logoutButtonText}>sonuclarim</Text>
             </TouchableOpacity>
         </View>
     );
@@ -49,4 +42,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Home;
+export default sonuclarim;
