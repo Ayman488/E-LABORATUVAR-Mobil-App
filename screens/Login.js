@@ -3,8 +3,8 @@ import { TextInput, Text, View, StyleSheet, TouchableOpacity, Image } from 'reac
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-import { auth } from '../firebase'; // تأكد من المسار الصحيح لملف firebase.js
-
+import { auth , db} from '../firebase'; // تأكد من المسار الصحيح لملف firebase.js
+import { doc, getDoc } from 'firebase/firestore';
 const Colors = {
     primary: '#ffffff',
     secondary: '#E5E7EB',
@@ -25,16 +25,41 @@ const Login = () => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setUser(user);
+            if (user) {
+                setUser(user);
+                checkUserRole(user.uid);
+            } else {
+                setUser(null);
+            }
         });
         return () => unsubscribe();
     }, []);
+
+    const checkUserRole = async (userId) => {
+        try {
+            const docRef = doc(db, 'users', userId); // `db` هو Firebase Firestore instance
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const userData = docSnap.data();
+                if (userData.role === 'doctor') {
+                    navigation.navigate('sonuclarim'); // شاشة الطبيب
+                } else {
+                    navigation.navigate('Home'); // شاشة المستخدم العادي
+                }
+            } else {
+                console.log('No such document!');
+            }
+        } catch (error) {
+            console.error('Error fetching user role:', error);
+        }
+    };
 
     const handleLogin = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 console.log('Logged in:', userCredential.user);
-                navigation.navigate('Home'); // نقل المستخدم إلى صفحة Home
+                checkUserRole(userCredential.user.uid); // التحقق من الرول بعد تسجيل الدخول
             })
             .catch((error) => {
                 console.error('Login error:', error);
@@ -76,7 +101,6 @@ const Login = () => {
                     <Text style={styles.loginButtonText}>LOGIN</Text>
                 </TouchableOpacity>
 
-                {user && <Text style={styles.userInfo}>Welcome, {user.email}</Text>}
 
                 <View style={styles.signupContainer}>
                     <Text style={styles.signupText}>Don't have an account already? </Text>

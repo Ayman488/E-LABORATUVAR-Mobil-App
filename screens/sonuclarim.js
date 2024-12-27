@@ -9,7 +9,7 @@ const sonuclarim = ({ navigation }) => {
                 style={styles.logoutButton}
                 onPress={() => navigation.navigate('Home')}
             >
-                <Text style={styles.logoutButtonText}>Logout</Text>
+                <Text style={styles.logoutButtonText}>Back to Home page</Text>
             </TouchableOpacity>
         </View>
     );

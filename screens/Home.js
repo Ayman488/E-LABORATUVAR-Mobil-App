@@ -6,13 +6,12 @@ const Home = ({ navigation }) => {
         <View style={styles.container}>
             <Text style={styles.title}>Welcome to the Home Page</Text>
             <TouchableOpacity
-                style={styles.logoutButton}
+                style={[styles.logoutButton, styles.buttonSpacing]}
                 onPress={() => navigation.navigate('Login')}
             >
                 
                 <Text style={styles.logoutButtonText}>Logout</Text>
             </TouchableOpacity>
-            <br></br>
             <TouchableOpacity
              style={styles.logoutButton} 
              onPress={() => navigation.navigate('sonuclarim')}>
@@ -46,6 +45,9 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         fontSize: 16,
         fontWeight: 'bold',
+    },
+    buttonSpacing: {
+        marginBottom: 20, // مسافة بين الأزرار
     },
 });
 
