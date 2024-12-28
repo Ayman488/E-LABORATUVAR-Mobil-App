@@ -5,6 +5,7 @@ import Login from './screens/Login';
 import Signup from './screens/Signup';
 import Home from './screens/Home'; 
 import sonuclarim from './screens/sonuclarim';
+import welcome from './screens/welcome';
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,11 @@ export default function App() {
                     name="sonuclarim"
                     component={sonuclarim}
                     options={{ title: 'sonuclarim' }}
+                />
+                <Stack.Screen
+                    name="welcome"
+                    component={welcome}
+                    options={{ title: 'welcome' }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

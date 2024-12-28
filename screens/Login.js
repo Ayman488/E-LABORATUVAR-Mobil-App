@@ -43,7 +43,7 @@ const Login = () => {
             if (docSnap.exists()) {
                 const userData = docSnap.data();
                 if (userData.role === 'doctor') {
-                    navigation.navigate('sonuclarim'); // شاشة الطبيب
+                    navigation.navigate('welcome'); // شاشة الطبيب
                 } else {
                     navigation.navigate('Home'); // شاشة المستخدم العادي
                 }
