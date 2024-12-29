@@ -14,6 +14,7 @@
     "@expo/vector-icons": "^14.0.2",
     "@react-native-firebase/app": "^21.6.1",
     "@react-native-firebase/auth": "^21.6.1",
+    "@react-native-firebase/firestore": "^21.6.1",
     "@react-navigation/native": "*",
     "@react-navigation/stack": "*",
     "expo": "~52.0.20",

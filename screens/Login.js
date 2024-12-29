@@ -3,7 +3,7 @@ import { TextInput, Text, View, StyleSheet, TouchableOpacity, Image } from 'reac
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-import { auth , db} from '../firebase'; // تأكد من المسار الصحيح لملف firebase.js
+import { auth , db} from '../firebase'; 
 import { doc, getDoc } from 'firebase/firestore';
 const Colors = {
     primary: '#ffffff',
@@ -37,15 +37,15 @@ const Login = () => {
 
     const checkUserRole = async (userId) => {
         try {
-            const docRef = doc(db, 'users', userId); // `db` هو Firebase Firestore instance
+            const docRef = doc(db, 'users', userId); 
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
                 const userData = docSnap.data();
                 if (userData.role === 'doctor') {
-                    navigation.navigate('welcome'); // شاشة الطبيب
+                    navigation.navigate('DoctorPage'); 
                 } else {
-                    navigation.navigate('Home'); // شاشة المستخدم العادي
+                    navigation.navigate('Home'); 
                 }
             } else {
                 console.log('No such document!');
@@ -59,7 +59,7 @@ const Login = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 console.log('Logged in:', userCredential.user);
-                checkUserRole(userCredential.user.uid); // التحقق من الرول بعد تسجيل الدخول
+                checkUserRole(userCredential.user.uid); 
             })
             .catch((error) => {
                 console.error('Login error:', error);

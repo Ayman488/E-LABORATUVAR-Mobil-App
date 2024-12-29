@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 
-const Welcome = ({ navigation }) => {
+const SonucBul = ({ navigation }) => {
     const [g1, setG1] = useState('');
     const [g2, setG2] = useState('');
     const [age, setAge] = useState('');
@@ -159,4 +159,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Welcome;
+export default SonucBul;

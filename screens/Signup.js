@@ -3,7 +3,7 @@ import { TextInput, Text, View, StyleSheet, TouchableOpacity } from 'react-nativ
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
-import { db } from '../firebase'; // تأكد من المسار الصحيح لملف firebase.js
+import { db } from '../firebase'; 
 
 const Colors = {
     primary: '#ffffff',
@@ -24,11 +24,9 @@ const Signup = () => {
 
     const handleSignup = async () => {
         try {
-            // تسجيل المستخدم
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            // إضافة بيانات المستخدم إلى Firestore
             await setDoc(doc(db, 'users', user.uid), {
                 email: user.email,
                 createdAt: new Date(),

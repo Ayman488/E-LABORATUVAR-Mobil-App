@@ -5,7 +5,10 @@ import Login from './screens/Login';
 import Signup from './screens/Signup';
 import Home from './screens/Home'; 
 import sonuclarim from './screens/sonuclarim';
-import welcome from './screens/welcome';
+import DoctorPage from './screens/DoctorPage';
+import SonucBul from './screens/SonucBul';
+import kilavuzlar from './screens/kilavuzlar';
+import Kullancilari from './screens/Kullancilari';
 
 const Stack = createStackNavigator();
 
@@ -34,9 +37,24 @@ export default function App() {
                     options={{ title: 'sonuclarim' }}
                 />
                 <Stack.Screen
-                    name="welcome"
-                    component={welcome}
-                    options={{ title: 'welcome' }}
+                    name="DoctorPage"
+                    component={DoctorPage}
+                    options={{ title: 'DoctorPage' }}
+                />
+                <Stack.Screen
+                    name="SonucBul"
+                    component={SonucBul}
+                    options={{ title: 'SonucBul' }}
+                />
+                <Stack.Screen
+                    name="kilavuzlar"
+                    component={kilavuzlar}
+                    options={{ title: 'kilavuzlar' }}
+                />
+                <Stack.Screen
+                    name="Kullancilari"
+                    component={Kullancilari}
+                    options={{ title: 'Kullancilari' }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
