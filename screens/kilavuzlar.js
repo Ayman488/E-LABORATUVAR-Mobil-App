@@ -1,48 +1,49 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 
-const kilavuzlar = ({ navigation }) => {
+const HavuzList = ({ navigation }) => {
+    const havuzlar = ['1.havuz', '2.havuz', '3.havuz', '4.havuz', '5.havuz', '6.havuz', '7.havuz'];
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Kilavuzlar sayfası</Text>
-            <TouchableOpacity
-                style={[styles.logoutButton, styles.buttonSpacing]}
-                onPress={() => navigation.navigate('Login')}
-            >
-                <Text style={styles.logoutButtonText}>Logout</Text>
-            </TouchableOpacity>
-        </View>
+        <ScrollView style={styles.container}>
+            <Text style={styles.headerText}>اختيار الحوض</Text>
+            {havuzlar.map((havuz, index) => (
+                <TouchableOpacity
+                    key={index}
+                    style={styles.button}
+                    onPress={() => navigation.navigate('HavuzDetails', { havuz })}
+                >
+                    <Text style={styles.buttonText}>{havuz}</Text>
+                </TouchableOpacity>
+            ))}
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#ffffff',
+        padding: 20,
     },
-    title: {
+    headerText: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#6D28D9',
+        textAlign: 'center',
         marginBottom: 20,
     },
-    logoutButton: {
+    button: {
         backgroundColor: '#6D28D9',
         padding: 15,
         borderRadius: 5,
+        marginBottom: 15,
         alignItems: 'center',
-        width: '50%',
     },
-    logoutButtonText: {
+    buttonText: {
         color: '#ffffff',
         fontSize: 16,
         fontWeight: 'bold',
     },
-    buttonSpacing: {
-        marginBottom: 20, 
-    },
 });
 
-export default kilavuzlar;
+export default HavuzList;

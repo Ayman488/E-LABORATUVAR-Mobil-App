@@ -9,6 +9,9 @@ import DoctorPage from './screens/DoctorPage';
 import SonucBul from './screens/SonucBul';
 import kilavuzlar from './screens/kilavuzlar';
 import Kullancilari from './screens/Kullancilari';
+import AddUser from './screens/AddUser';
+import EditUser from './screens/EditUser';
+import HavuzDetails from './screens/HavuzDetails';
 
 const Stack = createStackNavigator();
 
@@ -55,6 +58,21 @@ export default function App() {
                     name="Kullancilari"
                     component={Kullancilari}
                     options={{ title: 'Kullancilari' }}
+                />
+                <Stack.Screen
+                name="AddUser"
+                component={AddUser}
+                options={{ title: 'AddUser' }}
+                />
+                <Stack.Screen
+                name="EditUser"
+                component={EditUser}
+                options={{ title: 'EditUser' }}
+                />
+                <Stack.Screen
+                name="HavuzDetails"
+                component={HavuzDetails}
+                options={{ title: 'HavuzDetails' }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

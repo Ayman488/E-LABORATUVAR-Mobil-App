@@ -18,6 +18,7 @@ const Home = ({ navigation }) => {
                     <Text style={styles.logoutButtonText}>sonuclarim</Text>
             </TouchableOpacity>
             
+            
         </View>
     );
 };
