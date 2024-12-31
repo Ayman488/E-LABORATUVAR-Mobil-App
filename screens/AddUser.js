@@ -1,24 +1,36 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { db } from '../firebase'; // استيراد ملف التهيئة
+import { auth, db } from '../firebase'; // تأكد من إعداد ملف firebase.js
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, addDoc } from 'firebase/firestore';
 
 const AddUser = ({ navigation }) => {
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleAddUser = async () => {
-        if (!email) {
-            Alert.alert('Error', 'Please enter an email');
+        if (!email || !password) {
+            Alert.alert('Error', 'Please enter both email and password');
             return;
         }
 
         try {
-            await addDoc(collection(db, 'users'), { email });
+            // تسجيل المستخدم في Firebase Authentication
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+            // إضافة بيانات إضافية إلى Firestore
+            await addDoc(collection(db, 'users'), {
+                uid: userCredential.user.uid, // المعرف الخاص بالمستخدم
+                email, // البريد الإلكتروني
+                role: 'user', // افتراض دور المستخدم
+                createdAt: new Date().toISOString(), // تاريخ الإنشاء
+            });
+
             Alert.alert('Success', 'User added successfully');
             navigation.goBack(); // العودة إلى الشاشة السابقة
         } catch (error) {
             console.error('Error adding user:', error);
-            Alert.alert('Error', 'Failed to add user');
+            Alert.alert('Error', error.message || 'Failed to add user');
         }
     };
 
@@ -31,6 +43,15 @@ const AddUser = ({ navigation }) => {
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
+                autoCapitalize="none"
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={true}
+                autoCapitalize="none"
             />
             <TouchableOpacity
                 style={styles.addButton}

@@ -1,56 +1,37 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const Home = ({ navigation }) => {
+import HomeScreen from './HomeScreen'; // شاشة الصفحة الرئيسية
+import Notification from './Notification'; // شاشة الإشعارات
+import Profile from './Profile'; // شاشة الملف الشخصي
+
+const Tab = createBottomTabNavigator();
+
+const Home = () => {
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Welcome to the Home Page</Text>
-           
-            <TouchableOpacity
-                style={[styles.logoutButton, styles.buttonSpacing]}
-                onPress={() => navigation.navigate('Login')}>
-                <Text style={styles.logoutButtonText}>Logout</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-             style={styles.logoutButton} 
-             onPress={() => navigation.navigate('sonuclarim')}>
-                    <Text style={styles.logoutButtonText}>sonuclarim</Text>
-            </TouchableOpacity>
-            
-            
-        </View>
+        <Tab.Navigator
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ color, size }) => {
+                    let iconName;
+                    if (route.name === 'Home') {
+                        iconName = 'home-outline';
+                    } else if (route.name === 'Notification') {
+                        iconName = 'notifications-outline';
+                    } else if (route.name === 'Profile') {
+                        iconName = 'person-outline';
+                    }
+                    return <Icon name={iconName} size={size} color={color} />;
+                },
+                tabBarActiveTintColor: '#6D28D9',
+                tabBarInactiveTintColor: 'gray',
+            })}
+        >
+            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Notification" component={Notification} />
+            <Tab.Screen name="Profile" component={Profile} />
+        </Tab.Navigator>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#ffffff',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#6D28D9',
-        marginBottom: 20,
-    },
-    logoutButton: {
-        backgroundColor: '#6D28D9',
-        padding: 15,
-        borderRadius: 5,
-        alignItems: 'center',
-        width: '50%',
-    },
-    logoutButtonText: {
-        color: '#ffffff',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    buttonSpacing: {
-        marginBottom: 20, 
-    },
-});
 
 export default Home;

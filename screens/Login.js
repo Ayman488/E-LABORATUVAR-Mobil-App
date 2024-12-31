@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { TextInput, Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { TextInput, Text, View, StyleSheet, TouchableOpacity, Image, ActivityIndicator, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-import { auth , db} from '../firebase'; 
+import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
+
 const Colors = {
     primary: '#ffffff',
     secondary: '#E5E7EB',
@@ -21,6 +22,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -37,15 +39,15 @@ const Login = () => {
 
     const checkUserRole = async (userId) => {
         try {
-            const docRef = doc(db, 'users', userId); 
+            const docRef = doc(db, 'users', userId);
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
                 const userData = docSnap.data();
                 if (userData.role === 'doctor') {
-                    navigation.navigate('DoctorPage'); 
+                    navigation.navigate('DoctorPage');
                 } else {
-                    navigation.navigate('Home'); 
+                    navigation.navigate('Home');
                 }
             } else {
                 console.log('No such document!');
@@ -56,16 +58,31 @@ const Login = () => {
     };
 
     const handleLogin = () => {
+        if (!email || !password) {
+            Alert.alert('Error', 'Please fill in all fields.');
+            return;
+        }
+
+        setLoading(true);
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 console.log('Logged in:', userCredential.user);
-                checkUserRole(userCredential.user.uid); 
+                checkUserRole(userCredential.user.uid);
             })
             .catch((error) => {
                 console.error('Login error:', error);
+                let errorMessage = 'Failed to log in. Please try again.';
+                if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'No user found with this email.';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'Incorrect password.';
+                }
+                Alert.alert('Login Error', errorMessage);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
-    
 
     return (
         <View style={styles.container}>
@@ -83,6 +100,7 @@ const Login = () => {
                         value={email}
                         onChangeText={(text) => setEmail(text)}
                         keyboardType="email-address"
+                        autoCapitalize="none"
                     />
                 </View>
 
@@ -94,13 +112,17 @@ const Login = () => {
                         value={password}
                         onChangeText={(text) => setPassword(text)}
                         secureTextEntry={true}
+                        autoCapitalize="none"
                     />
                 </View>
 
-                <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-                    <Text style={styles.loginButtonText}>LOGIN</Text>
+                <TouchableOpacity style={styles.loginButton} onPress={handleLogin} disabled={loading}>
+                    {loading ? (
+                        <ActivityIndicator color={primary} />
+                    ) : (
+                        <Text style={styles.loginButtonText}>LOGIN</Text>
+                    )}
                 </TouchableOpacity>
-
 
                 <View style={styles.signupContainer}>
                     <Text style={styles.signupText}>Don't have an account already? </Text>
@@ -174,11 +196,6 @@ const styles = StyleSheet.create({
         color: primary,
         fontSize: 16,
         fontWeight: 'bold',
-    },
-    userInfo: {
-        marginTop: 20,
-        fontSize: 16,
-        color: brand,
     },
     signupContainer: {
         flexDirection: 'row',
